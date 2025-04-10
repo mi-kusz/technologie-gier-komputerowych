@@ -32,4 +32,31 @@ public class InventoryManager : MonoBehaviour
     {
         return items;
     }
+    
+    public int CountItem(string itemName)
+    {
+        int count = 0;
+        foreach (ItemData item in items)
+        {
+            if (item.itemName == itemName)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public void RemoveItem(string itemName, int count)
+    {
+        for (int i = items.Count - 1; i >= 0 && count > 0; i--)
+        {
+            if (items[i].itemName == itemName)
+            {
+                items.RemoveAt(i);
+                count--;
+            }
+        }
+
+        FindObjectOfType<InventoryUI>().UpdateInventoryUI();
+    }
 }

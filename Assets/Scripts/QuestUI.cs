@@ -22,8 +22,6 @@ public class QuestUI : MonoBehaviour
 
     void Start()
     {
-        QuestManager.Instance.AddQuest(new QuestData("Znajdź starożytny miecz"));
-        QuestManager.Instance.AddQuest(new QuestData("Zanieś list do kapłanki"));
         UpdateQuestUI();
     }
 }

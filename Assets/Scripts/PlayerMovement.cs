@@ -79,10 +79,10 @@ public class PlayerMovement : MonoBehaviour
                 
                 if (distanceToNPC <= agent.stoppingDistance + 1f)
                 {
-                    NPCInteraction npc = targetNPC.GetComponent<NPCInteraction>();
-                    if (npc != null)
+                    NPCController npcController = targetNPC.GetComponent<NPCController>();
+                    if (npcController != null)
                     {
-                        npc.TriggerDialogue();
+                        npcController.Interact();
                     }
                 }
                 else
