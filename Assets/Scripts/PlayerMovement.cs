@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
 
                     targetNPC = hit.collider.gameObject;
                     targetItem = null;
-                    agent.stoppingDistance = 4f;
+                    agent.stoppingDistance = 2.5f;
                     agent.SetDestination(targetNPC.transform.position);
                 }
             }
@@ -75,8 +75,9 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (targetNPC)
             {
-
-                if (agent.remainingDistance <= agent.stoppingDistance + 0.2f)
+                float distanceToNPC = Vector3.Distance(transform.position, targetNPC.transform.position);
+                
+                if (distanceToNPC <= agent.stoppingDistance + 1f)
                 {
                     NPCInteraction npc = targetNPC.GetComponent<NPCInteraction>();
                     if (npc != null)
