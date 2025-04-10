@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject markerPrefab;
     private GameObject currentMarker;
     private GameObject targetItem;
+    private GameObject targetNPC;
     
     void Start()
     {
@@ -23,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
             if (Physics.Raycast(ray, out hit) &&  hit.collider.tag == "Ground")
             {
                 targetItem = null;
+                agent.stoppingDistance = 0f;
                 agent.SetDestination(hit.point);
                 PlaceMarker(hit.point);
             }
@@ -30,13 +32,28 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.CompareTag("Item"))
+            if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                if (currentMarker)
-                    Destroy(currentMarker);
-                
-                targetItem = hit.collider.gameObject;
-                agent.SetDestination(targetItem.transform.position);
+                if (hit.collider.CompareTag("Item"))
+                {
+                    if (currentMarker)
+                        Destroy(currentMarker);
+
+                    targetItem = hit.collider.gameObject;
+                    targetNPC = null;
+                    agent.stoppingDistance = 0f;
+                    agent.SetDestination(targetItem.transform.position);
+                }
+                else if (hit.collider.CompareTag("NPC"))
+                {
+                    if (currentMarker)
+                        Destroy(currentMarker);
+
+                    targetNPC = hit.collider.gameObject;
+                    targetItem = null;
+                    agent.stoppingDistance = 4f;
+                    agent.SetDestination(targetNPC.transform.position);
+                }
             }
         }
         
@@ -56,32 +73,29 @@ public class PlayerMovement : MonoBehaviour
 
                 targetItem = null;
             }
+            else if (targetNPC)
+            {
+
+                if (agent.remainingDistance <= agent.stoppingDistance + 0.2f)
+                {
+                    NPCInteraction npc = targetNPC.GetComponent<NPCInteraction>();
+                    if (npc != null)
+                    {
+                        npc.TriggerDialogue();
+                    }
+                }
+                else
+                {
+                    Debug.Log("Nie można podejść do NPC.");
+                }
+
+                targetNPC = null;
+            }
             else if (currentMarker)
             {
                 Destroy(currentMarker);
             }
         }
-        
-        /*
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-        {
-            if (targetItem != null)
-            {
-                TryPickUp(targetItem);
-                targetItem = null;
-            }
-            else if (currentMarker)
-            {
-                Destroy(currentMarker);
-            }
-        }
-        */
-        
-        /*if (currentMarker && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-        {
-            Destroy(currentMarker);
-        }
-        */
     }
     
     void PlaceMarker(Vector3 position)
