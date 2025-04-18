@@ -32,6 +32,19 @@ public class InventoryManager : MonoBehaviour
     {
         return items;
     }
+
+    public bool HasItem(string itemName)
+    {
+        foreach (ItemData item in items)
+        {
+            if (item.itemName == itemName)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
     
     public int CountItem(string itemName)
     {

@@ -55,7 +55,6 @@ public class NPCController : MonoBehaviour
                 InventoryManager.Instance.AddItem(rewardItem);
 
                 qm.CompleteQuest(questName);
-                print("X");
                 DialogueManager.Instance.StartDialogue(npcName, dialogueQuestComplete);
             }
             else
@@ -65,8 +64,6 @@ public class NPCController : MonoBehaviour
         }
         else
         {
-            // Quest już ukończony
-            print("Y");
             DialogueManager.Instance.StartDialogue(npcName, dialogueQuestComplete);
         }
     }

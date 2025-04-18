@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private GameObject currentMarker;
     private GameObject targetItem;
     private GameObject targetNPC;
+    private GameObject targetObstacle;
     
     void Start()
     {
@@ -23,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit) &&  hit.collider.tag == "Ground")
             {
-                targetItem = null;
+                ResetTarget();
                 agent.stoppingDistance = 0f;
                 agent.SetDestination(hit.point);
                 PlaceMarker(hit.point);
@@ -39,8 +40,8 @@ public class PlayerMovement : MonoBehaviour
                     if (currentMarker)
                         Destroy(currentMarker);
 
+                    ResetTarget();
                     targetItem = hit.collider.gameObject;
-                    targetNPC = null;
                     agent.stoppingDistance = 0f;
                     agent.SetDestination(targetItem.transform.position);
                 }
@@ -49,10 +50,20 @@ public class PlayerMovement : MonoBehaviour
                     if (currentMarker)
                         Destroy(currentMarker);
 
+                    ResetTarget();
                     targetNPC = hit.collider.gameObject;
-                    targetItem = null;
                     agent.stoppingDistance = 2.5f;
                     agent.SetDestination(targetNPC.transform.position);
+                }
+                else if (hit.collider.CompareTag("RemovableObstacle"))
+                {
+                    if (currentMarker)
+                        Destroy(currentMarker);
+
+                    ResetTarget();
+                    targetObstacle = hit.collider.gameObject;
+                    agent.stoppingDistance = 2.5f;
+                    agent.SetDestination(targetObstacle.transform.position);
                 }
             }
         }
@@ -71,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
                     Debug.Log("Nie można dotrzeć do przedmiotu.");
                 }
 
-                targetItem = null;
+                ResetTarget();
             }
             else if (targetNPC)
             {
@@ -90,7 +101,32 @@ public class PlayerMovement : MonoBehaviour
                     Debug.Log("Nie można podejść do NPC.");
                 }
 
-                targetNPC = null;
+                ResetTarget();
+            }
+            else if (targetObstacle)
+            {
+                float distanceToObstacle = Vector3.Distance(transform.position, targetObstacle.transform.position);
+                
+                if (distanceToObstacle <= agent.stoppingDistance + 1f)
+                {
+                    RemovableObstacle currentObstacleData = targetObstacle.GetComponent<RemovableObstacle>();
+                    
+                    if (currentObstacleData != null && InventoryManager.Instance.HasItem(currentObstacleData.requiredItemName))
+                    {
+                        Destroy(targetObstacle);
+                        Debug.Log("Przeszkoda usunięta za pomocą: " + currentObstacleData.requiredItemName);
+                    }
+                    else
+                    {
+                        Debug.Log("Nie masz przedmiotu: " + (currentObstacleData != null ? currentObstacleData.requiredItemName : "???"));
+                    }
+                }
+                else
+                {
+                    Debug.Log("Nie można podejść do przeszkody.");
+                }
+                
+                ResetTarget();
             }
             else if (currentMarker)
             {
@@ -115,5 +151,12 @@ public class PlayerMovement : MonoBehaviour
             InventoryManager.Instance.AddItem(itemComponent.itemData);
             Destroy(itemObject);
         }
+    }
+
+    private void ResetTarget()
+    {
+        targetItem = null;
+        targetNPC = null;
+        targetObstacle = null;
     }
 }

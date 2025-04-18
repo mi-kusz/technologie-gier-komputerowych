@@ -9,7 +9,6 @@ public class IsometricCamera : MonoBehaviour
     public Transform target;
     public float smoothSpeed;
     public float rotationSpeed;
-
     void LateUpdate()
     {
         if (!target)
