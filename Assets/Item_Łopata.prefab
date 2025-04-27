@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7817527414153150773}
   - component: {fileID: 1458776472311652080}
   m_Layer: 0
-  m_Name: Item_Kamaz
+  m_Name: "Item_\u0141opata"
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,4 +123,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d6ed6aed63a167d99ba554f34037cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemData: {fileID: 11400000, guid: 600231e623ebe9a12af2339abe27cc59, type: 2}
+  itemData: {fileID: 11400000, guid: 44fbbbf0136bb6567bdc23fff0cc4732, type: 2}

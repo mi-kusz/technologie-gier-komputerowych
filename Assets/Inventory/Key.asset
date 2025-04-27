@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: KamazItem
+  m_Name: Key
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: "Sprz\u0119g\u0142o do Kamaza"
+  itemName: Klucz
   icon: {fileID: 0}
