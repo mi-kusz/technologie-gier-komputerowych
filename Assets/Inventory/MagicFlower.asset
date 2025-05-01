@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: GoldenNecklace
+  m_Name: MagicFlower
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: "Z\u0142oty naszyjnik"
+  itemName: Magiczny kwiat
   icon: {fileID: 0}
