@@ -32330,7 +32330,7 @@ MonoBehaviour:
   interactionDistance: 4
   defaultDialogue: []
   hasQuest: 1
-  questName: "Znajd\u017A magiczne kamienie"
+  questName: "Znajd\u017A magiczne kwiaty"
   dialogueBeforeQuest:
   - Witaj nieznajomy!
   - "Potrzebuj\u0119 twojej pomocy!"
