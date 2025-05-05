@@ -25,10 +25,14 @@ public class ChangeWorld : MonoBehaviour
     public Material SpiritalSkinMaterial;
     public Material SpiritalEyesMaterial;
     public Material SpiritalArmorMaterial;
+
+    public Light PhysicaLight;
+    public Light SpiritalLight;
     
     void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
+        ChangeLightToPhysical();
         _firstSurfaceCollider = firstWorld.GetComponent<Collider>();
         _secondSurfaceCollider = secondWorld.GetComponent<Collider>();
     }
@@ -39,12 +43,14 @@ public class ChangeWorld : MonoBehaviour
             if (IsAgentOnSurface(_firstSurfaceCollider))
             {
                 ChangeMaterialToSpirital();
+                ChangeLightToSpirital();
                 TeleportToSurface(_secondSurfaceCollider);
                 Debug.Log("Przeniesiono na drugie podłoże");
             }
             else
             {
                 ChangeMaterialToPhysical();
+                ChangeLightToPhysical();
                 TeleportToSurface(_firstSurfaceCollider);
                 Debug.Log("Przeniesiono na pierwsze podłoże");
             }
@@ -111,5 +117,17 @@ public class ChangeWorld : MonoBehaviour
         {
             rend.material = SpiritalArmorMaterial;
         }
+    }
+
+    void ChangeLightToPhysical()
+    {
+        PhysicaLight.enabled = true;
+        SpiritalLight.enabled = false;
+    }
+
+    void ChangeLightToSpirital()
+    {
+        PhysicaLight.enabled = false;
+        SpiritalLight.enabled = true;
     }
 }
