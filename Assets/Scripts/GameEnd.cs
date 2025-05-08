@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameEnd : MonoBehaviour
 {
@@ -19,11 +20,7 @@ public class GameEnd : MonoBehaviour
     {
         if (gameEnded && Input.GetKeyDown(KeyCode.Space))
         {
-            #if UNITY_EDITOR
-                        UnityEditor.EditorApplication.isPlaying = false;
-            #else
-                        Application.Quit();
-            #endif
+            SceneManager.LoadScene("MainMenu");
         }
     }
 }
